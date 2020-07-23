@@ -33,5 +33,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "peerDependencies": {
+    "firebase": "^7.16.1",
+    "ui": "^0.2.4"
   }
 }

@@ -1,20 +1,37 @@
-import React from 'react'
+// Import FirebaseAuth and firebase.
+import React from 'react';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import firebase from 'firebase';
+
+// Configure Firebase.
+const config = {
+  apiKey: 'AIzaSyDB_12E0_gCDrj9Ofoi9VyWSI1HhSnFEYA',
+  authDomain: 'magna-3d0be.firebaseapp.com',
+  // ...
+};
+firebase.initializeApp(config);
+
+// Configure FirebaseUI.
+const uiConfig = {
+  // Popup signin flow rather than redirect flow.
+  signInFlow: 'popup',
+  // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
+  signInSuccessUrl: '/',
+  // We will display Google and Facebook as auth providers.
+  signInOptions: [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    firebase.auth.FacebookAuthProvider.PROVIDER_ID
+  ]
+};
 
 function LoginPage(){
-    return (
-        <section className="text-gray-700 body-font">
-        <div className="container px-5 py-24 mx-auto flex flex-wrap items-center">
-          <div className="lg:w-2/6 md:w-1/2 bg-gray-200 rounded-lg p-8 flex flex-col md:ml-auto md:mr-auto w-full mt-10 md:mt-0" data-children-count="2">
-            <h2 className="text-gray-900 text-lg font-medium title-font mb-5">Login</h2>
-            <input className="bg-white rounded border border-gray-400 focus:outline-none focus:border-black text-base px-4 py-2 mb-4" placeholder="Email" type="email" />
-            <input className="bg-white rounded border border-gray-400 focus:outline-none focus:border-black text-base px-4 py-2 mb-4" placeholder="Password" type="password" />
-            <button className="text-white bg-black border-0 py-2 px-8 focus:outline-none rounded text-lg">Login</button>
-            <p className="text-xs text-gray-500 mt-3 ml-auto mr-auto">Need an account? Sign Up Here.</p>
-          </div>
-        </div>
-      </section>
-    );
+
+  return(
+      <div>
+        <h1>My App</h1>
+        <p>Please sign-in:</p>
+        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
+      </div>
+  )
 }
-
-
 export default LoginPage;
