@@ -1,13 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Magna from './Magna';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import {BrowserRouter as Router} from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
+
+
+const theme = createMuiTheme({
+	palette: {
+		primary: {
+			light: '#484848',
+			main: '#212121',
+			dark: '#000000',
+			contrastText: '#ffffff',
+		},
+		secondary: {
+			light: '#ffffff',
+			main: '#ffffff',
+			dark: '#ffffff',
+		},
+	},
+});
 
 ReactDOM.render(
   <Router>
   <React.StrictMode>
+  <ThemeProvider theme={theme}>
     <Magna />
+  </ThemeProvider>
   </React.StrictMode>
   </Router>,
   document.getElementById('root')

@@ -39,6 +39,7 @@
     "ui": "^0.2.4"
   },
   "devDependencies": {
+    "firebase": "^7.17.1",
     "node-sass": "^4.14.1"
   }
 }

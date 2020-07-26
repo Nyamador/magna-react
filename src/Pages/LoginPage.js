@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,41 +13,11 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-function Copyright() {
-	return (
-		<Typography variant='body2' color='textSecondary' align='center'>
-			{'Copyright © '}
-			<Link color='inherit' href='https://material-ui.com/'>
-				Your Website
-			</Link>{' '}
-			{new Date().getFullYear()}
-			{'.'}
-		</Typography>
-	);
-}
-
-const useStyles = makeStyles((theme) => ({
-	paper: {
-		marginTop: theme.spacing(8),
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-	},
-	avatar: {
-		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main,
-	},
-	form: {
-		width: '100%', // Fix IE 11 issue.
-		marginTop: theme.spacing(1),
-	},
-	submit: {
-		margin: theme.spacing(3, 0, 2),
-	},
-}));
-
-export default function LoginPage() {
+function LoginPage() {
 	const classes = useStyles();
+
+	const [email, setEmail] = useState("");
+	const [password,setPassword] = useState("");
 
 	return (
 		<Container component='main' maxWidth='xs'>
@@ -115,3 +85,54 @@ export default function LoginPage() {
 		</Container>
 	);
 }
+
+const useStyles = makeStyles((theme) => ({
+	paper: {
+		marginTop: theme.spacing(8),
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+	},
+	avatar: {
+		margin: theme.spacing(1),
+		backgroundColor: theme.palette.secondary.main,
+	},
+	form: {
+		width: '100%', // Fix IE 11 issue.
+		marginTop: theme.spacing(1),
+	},
+	submit: {
+		margin: theme.spacing(3, 0, 2),
+	},
+}));
+
+
+function Copyright() {
+	return (
+		<Typography variant='body2' color='textSecondary' align='center'>
+			{'Copyright © '}
+			<Link color='inherit' href='https://material-ui.com/'>
+				Magna Technologies
+			</Link>{' '}
+			{new Date().getFullYear()}
+			{'.'}
+		</Typography>
+	);
+}
+
+// const firebaseConfig = {
+// 	apiKey: "AIzaSyDB_12E0_gCDrj9Ofoi9VyWSI1HhSnFEYA",
+// 	authDomain: "magna-3d0be.firebaseapp.com",
+// 	databaseURL: "https://magna-3d0be.firebaseio.com",
+// 	projectId: "magna-3d0be",
+// 	storageBucket: "magna-3d0be.appspot.com",
+// 	messagingSenderId: "206805306542",
+// 	appId: "1:206805306542:web:f97e41210f64c4a479b13f",
+// 	measurementId: "G-MC1SZTE2WN"
+//   };
+//   // Initialize Firebase
+//   firebase.initializeApp(firebaseConfig);
+//   firebase.analytics();
+
+
+export default LoginPage;
