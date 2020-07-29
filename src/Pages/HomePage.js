@@ -6,10 +6,10 @@ function HomePage() {
   const {from} = location.state || {from: {pathname: "/"}};
   console.log("From", from);
 
-  return (
-    <div>
-      <p>Home</p>
-    </div>
-  );
+  if (from.isAuthenticated) {
+    return <p>Logged in Successfully as {from.user.email}</p>;
+  } else {
+    return <p>Not Logged in</p>;
+  }
 }
 export default HomePage;
