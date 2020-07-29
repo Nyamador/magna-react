@@ -18,24 +18,33 @@ import {
   Snackbar,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import {Link as RouterLink} from "react-router-dom";
+import {Link as RouterLink, Redirect} from "react-router-dom";
 
 function SignUpPage() {
   const classes = useStyles();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isAuthenticated, setisAuthenticated] = useState(false);
   const [error, setError] = useState(false);
+  const [snackBarOpened, setsnackBarOpened] = useState(false);
 
   const handleSubmit = event => {
     event.preventDefault();
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(credentials => console.log(credentials))
+      .then(credentials => {
+        console.log(credentials);
+        setisAuthenticated(true);
+        setError(false);
+        setsnackBarOpened(false);
+      })
       .catch(function (error) {
         // Handle Errors here.
         setError(true);
+        setsnackBarOpened(true);
+        setisAuthenticated(false);
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(errorCode, errorMessage);
@@ -44,7 +53,9 @@ function SignUpPage() {
     console.log(email, password);
   };
 
-  return (
+  return isAuthenticated ? (
+    <Redirect to="/" />
+  ) : (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -97,8 +108,25 @@ function SignUpPage() {
             </Grid>
           </Grid>
         </form>
-        <SnackbarContent message="error" role="alert" autohideduration="2" />
-        <Snackbar message="error1" role="alert" autohideduration="2" anchororigin="center" />
+        {error ? (
+          <Snackbar
+            message="An error occurred trying to log you in"
+            autoHideDuration={6000}
+            open={snackBarOpened}
+            onClose={() => {
+              setsnackBarOpened(false);
+            }}
+          />
+        ) : (
+          <Snackbar
+            message="Login Successful"
+            autoHideDuration={6000}
+            open={snackBarOpened}
+            onClose={() => {
+              setsnackBarOpened(false);
+            }}
+          />
+        )}
       </div>
       <Box mt={8}>
         <Copyright />

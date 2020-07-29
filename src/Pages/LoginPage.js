@@ -27,6 +27,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [isAuthenticated, setisAuthenticated] = useState(false);
   const [error, setError] = useState(false);
+  const [snackBarOpened, setsnackBarOpened] = useState(false);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -36,10 +37,14 @@ function LoginPage() {
       .then(credentials => {
         console.log(credentials);
         setisAuthenticated(true);
+        setError(false);
+        setsnackBarOpened(false);
       })
       .catch(function (error) {
         // Handle Errors here.
         setError(true);
+        setsnackBarOpened(true);
+        setisAuthenticated(false);
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(errorCode, errorMessage);
@@ -106,9 +111,23 @@ function LoginPage() {
           </Grid>
         </form>
         {error ? (
-          <Snackbar message="An error occurred trying to log you in" autohideduration={3000} open={true} />
+          <Snackbar
+            message="An error occurred trying to log you in"
+            autoHideDuration={6000}
+            open={snackBarOpened}
+            onClose={() => {
+              setsnackBarOpened(false);
+            }}
+          />
         ) : (
-          console.log("Nuin")
+          <Snackbar
+            message="Login Successful"
+            autoHideDuration={6000}
+            open={snackBarOpened}
+            onClose={() => {
+              setsnackBarOpened(false);
+            }}
+          />
         )}
       </div>
       <Box mt={8}>
