@@ -27,6 +27,7 @@ function SignUpPage() {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [snackBarOpened, setsnackBarOpened] = useState(false);
+  const [credentials, setCredentials] = useState({});
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -35,6 +36,7 @@ function SignUpPage() {
       .createUserWithEmailAndPassword(email, password)
       .then(credentials => {
         console.log(credentials);
+        setCredentials(credentials);
         setisAuthenticated(true);
         setError(false);
         setsnackBarOpened(false);
@@ -48,6 +50,10 @@ function SignUpPage() {
         const errorMessage = error.message;
         if (errorCode === "auth/weak-password") {
           setErrorMessage("Your Password is too Weak");
+        } else if (errorCode === "auth/invalid-email") {
+          setErrorMessage("You entered a wrong email");
+        } else if (errorCode === "auth/network-request-failed") {
+          setErrorMessage("A network error occurred when fetching your request");
         } else {
           setErrorMessage("We're having problems creating your account");
           console.log(errorCode, errorMessage);
@@ -57,7 +63,7 @@ function SignUpPage() {
   };
 
   return isAuthenticated ? (
-    <Redirect to="/" />
+    <Redirect to={{pathname: "/", state: {from: {...credentials, isAuthenticated: isAuthenticated}}}} />
   ) : (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

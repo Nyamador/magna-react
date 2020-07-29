@@ -26,6 +26,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [isAuthenticated, setisAuthenticated] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [snackBarOpened, setsnackBarOpened] = useState(false);
   const [credentials, setCredentials] = useState({});
 
@@ -50,6 +51,11 @@ function LoginPage() {
         setisAuthenticated(false);
         var errorCode = error.code;
         var errorMessage = error.message;
+        if (errorCode === "auth/invalid-email") {
+          setErrorMessage("Badly Formatted Email");
+        } else {
+          setErrorMessage("There was a problem processing your request");
+        }
         console.log(errorCode, errorMessage);
         // ...
       });
@@ -57,7 +63,7 @@ function LoginPage() {
   };
 
   return isAuthenticated ? (
-    <Redirect to={{pathname: "/", state: {...credentials}}} />
+    <Redirect to={{pathname: "/", state: {from: {...credentials, isAuthenticated: isAuthenticated}}}} />
   ) : (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -115,7 +121,7 @@ function LoginPage() {
         </form>
         {error ? (
           <Snackbar
-            message="An error occurred trying to log you in"
+            message={errorMessage}
             autoHideDuration={6000}
             open={snackBarOpened}
             onClose={() => {

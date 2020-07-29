@@ -4,7 +4,7 @@ import {useLocation} from "react-router-dom";
 function HomePage() {
   const location = useLocation();
   const {from} = location.state || {from: {pathname: "/"}};
-  console.log(from);
+  console.log("From", from);
 
   return (
     <div>
