@@ -14,7 +14,6 @@ import {
   Typography,
   Container,
   makeStyles,
-  SnackbarContent,
   Snackbar,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -22,11 +21,11 @@ import {Link as RouterLink, Redirect} from "react-router-dom";
 
 function SignUpPage() {
   const classes = useStyles();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isAuthenticated, setisAuthenticated] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [snackBarOpened, setsnackBarOpened] = useState(false);
 
   const handleSubmit = event => {
@@ -45,12 +44,16 @@ function SignUpPage() {
         setError(true);
         setsnackBarOpened(true);
         setisAuthenticated(false);
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-        // ...
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        if (errorCode === "auth/weak-password") {
+          setErrorMessage("Your Password is too Weak");
+        } else {
+          setErrorMessage("We're having problems creating your account");
+          console.log(errorCode, errorMessage);
+          console.log(email, password);
+        }
       });
-    console.log(email, password);
   };
 
   return isAuthenticated ? (
@@ -103,14 +106,16 @@ function SignUpPage() {
             </Grid>
             <Grid item>
               <RouterLink to="/login">
-                <Link variant="body2">{"Have an account? Log In"}</Link>
+                <Typography component="p" variant="body2" color="inherit">
+                  Have an account? Log In"
+                </Typography>
               </RouterLink>
             </Grid>
           </Grid>
         </form>
         {error ? (
           <Snackbar
-            message="An error occurred trying to log you in"
+            message={errorMessage}
             autoHideDuration={6000}
             open={snackBarOpened}
             onClose={() => {
@@ -167,18 +172,5 @@ function Copyright() {
     </Typography>
   );
 }
-
-// const firebaseConfig = {
-//   apiKey: "AIzaSyDB_12E0_gCDrj9Ofoi9VyWSI1HhSnFEYA",
-//   authDomain: "magna-3d0be.firebaseapp.com",
-//   databaseURL: "https://magna-3d0be.firebaseio.com",
-//   projectId: "magna-3d0be",
-//   storageBucket: "magna-3d0be.appspot.com",
-//   messagingSenderId: "206805306542",
-//   appId: "1:206805306542:web:f97e41210f64c4a479b13f",
-//   measurementId: "G-MC1SZTE2WN",
-// };
-// // Initialize Firebase
-// firebase.initializeApp(firebaseConfig);
 
 export default SignUpPage;

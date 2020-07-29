@@ -14,7 +14,6 @@ import {
   Typography,
   Container,
   makeStyles,
-  SnackbarContent,
   Snackbar,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -28,14 +27,18 @@ function LoginPage() {
   const [isAuthenticated, setisAuthenticated] = useState(false);
   const [error, setError] = useState(false);
   const [snackBarOpened, setsnackBarOpened] = useState(false);
+  const [credentials, setCredentials] = useState({});
 
   const handleSubmit = event => {
     event.preventDefault();
     firebase
       .auth()
-      .createUserWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(email, password)
       .then(credentials => {
         console.log(credentials);
+        setCredentials(credentials);
+        // additionalUserInfo{providerId: "password", isNewUser: true}
+        // user{email,isAnonymous: false,}
         setisAuthenticated(true);
         setError(false);
         setsnackBarOpened(false);
@@ -54,7 +57,7 @@ function LoginPage() {
   };
 
   return isAuthenticated ? (
-    <Redirect to="/" />
+    <Redirect to={{pathname: "/", state: {...credentials}}} />
   ) : (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
